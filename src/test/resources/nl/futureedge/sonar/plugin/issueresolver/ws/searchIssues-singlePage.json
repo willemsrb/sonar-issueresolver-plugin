@@ -1,0 +1,253 @@
+{
+	"total": 2,
+	"p": 1,
+	"ps": 100,
+	"paging": {
+		"pageIndex": 1,
+		"pageSize": 100,
+		"total": 2
+	},
+	"issues": [{
+		"organization": "default-organization",
+		"key": "AVrdUwSCGyMCMhQpQjBw",
+		"rule": "xml:IllegalTabCheck",
+		"severity": "MINOR",
+		"component": "nl.future-edge.sonarqube.plugins:sonar-issueresolver-plugin:pom.xml",
+		"componentId": 775,
+		"project": "nl.future-edge.sonarqube.plugins:sonar-issueresolver-plugin",
+		"line": 4,
+		"textRange": {
+			"startLine": 4,
+			"endLine": 4,
+			"startOffset": 0,
+			"endOffset": 36
+		},
+		"flows": [],
+		"resolution": "FALSE-POSITIVE",
+		"status": "RESOLVED",
+		"message": "Tab characters found (this is the first occurrence)",
+		"effort": "2min",
+		"debt": "2min",
+		"author": "",
+		"tags": ["convention"],
+		"creationDate": "2017-03-17T18:31:23+0100",
+		"updateDate": "2017-03-20T07:31:30+0100",
+		"type": "CODE_SMELL"
+	},
+	{
+		"organization": "default-organization",
+		"key": "AVrdUwS9GyMCMhQpQjBx",
+		"rule": "squid:S3776",
+		"severity": "CRITICAL",
+		"component": "nl.future-edge.sonarqube.plugins:sonar-issueresolver-plugin:src/main/java/nl/futureedge/sonar/plugin/issueresolver/issues/IssueKey.java",
+		"componentId": 788,
+		"project": "nl.future-edge.sonarqube.plugins:sonar-issueresolver-plugin",
+		"line": 64,
+		"textRange": {
+			"startLine": 64,
+			"endLine": 64,
+			"startOffset": 16,
+			"endOffset": 22
+		},
+		"flows": [{
+			"locations": [{
+				"textRange": {
+					"startLine": 65,
+					"endLine": 65,
+					"startOffset": 2,
+					"endOffset": 4
+				},
+				"msg": "+1"
+			}]
+		},
+		{
+			"locations": [{
+				"textRange": {
+					"startLine": 67,
+					"endLine": 67,
+					"startOffset": 2,
+					"endOffset": 4
+				},
+				"msg": "+1"
+			}]
+		},
+		{
+			"locations": [{
+				"textRange": {
+					"startLine": 69,
+					"endLine": 69,
+					"startOffset": 2,
+					"endOffset": 4
+				},
+				"msg": "+1"
+			}]
+		},
+		{
+			"locations": [{
+				"textRange": {
+					"startLine": 72,
+					"endLine": 72,
+					"startOffset": 2,
+					"endOffset": 4
+				},
+				"msg": "+1"
+			}]
+		},
+		{
+			"locations": [{
+				"textRange": {
+					"startLine": 73,
+					"endLine": 73,
+					"startOffset": 3,
+					"endOffset": 5
+				},
+				"msg": "+2 (incl 1 for nesting)"
+			}]
+		},
+		{
+			"locations": [{
+				"textRange": {
+					"startLine": 75,
+					"endLine": 75,
+					"startOffset": 9,
+					"endOffset": 11
+				},
+				"msg": "+1"
+			}]
+		},
+		{
+			"locations": [{
+				"textRange": {
+					"startLine": 77,
+					"endLine": 77,
+					"startOffset": 2,
+					"endOffset": 4
+				},
+				"msg": "+1"
+			}]
+		},
+		{
+			"locations": [{
+				"textRange": {
+					"startLine": 79,
+					"endLine": 79,
+					"startOffset": 2,
+					"endOffset": 4
+				},
+				"msg": "+1"
+			}]
+		},
+		{
+			"locations": [{
+				"textRange": {
+					"startLine": 80,
+					"endLine": 80,
+					"startOffset": 3,
+					"endOffset": 5
+				},
+				"msg": "+2 (incl 1 for nesting)"
+			}]
+		},
+		{
+			"locations": [{
+				"textRange": {
+					"startLine": 82,
+					"endLine": 82,
+					"startOffset": 9,
+					"endOffset": 11
+				},
+				"msg": "+1"
+			}]
+		},
+		{
+			"locations": [{
+				"textRange": {
+					"startLine": 84,
+					"endLine": 84,
+					"startOffset": 2,
+					"endOffset": 4
+				},
+				"msg": "+1"
+			}]
+		},
+		{
+			"locations": [{
+				"textRange": {
+					"startLine": 86,
+					"endLine": 86,
+					"startOffset": 2,
+					"endOffset": 4
+				},
+				"msg": "+1"
+			}]
+		},
+		{
+			"locations": [{
+				"textRange": {
+					"startLine": 87,
+					"endLine": 87,
+					"startOffset": 3,
+					"endOffset": 5
+				},
+				"msg": "+2 (incl 1 for nesting)"
+			}]
+		},
+		{
+			"locations": [{
+				"textRange": {
+					"startLine": 89,
+					"endLine": 89,
+					"startOffset": 9,
+					"endOffset": 11
+				},
+				"msg": "+1"
+			}]
+		}],
+		"resolution": "WONTFIX",
+		"status": "RESOLVED",
+		"message": "Refactor this method to reduce its Cognitive Complexity from 17 to the 15 allowed.",
+		"effort": "7min",
+		"debt": "7min",
+		"author": "",
+		"tags": ["brain-overload"],
+		"creationDate": "2017-03-17T18:31:23+0100",
+		"updateDate": "2017-03-20T07:31:30+0100",
+		"type": "CODE_SMELL"
+	}],
+	"components": [{
+		"organization": "default-organization",
+		"id": 773,
+		"key": "nl.future-edge.sonarqube.plugins:sonar-issueresolver-plugin",
+		"uuid": "AVrbBUpAwTrzhhezPtTZ",
+		"enabled": true,
+		"qualifier": "TRK",
+		"name": "Issue resolver",
+		"longName": "Issue resolver"
+	},
+	{
+		"organization": "default-organization",
+		"id": 788,
+		"key": "nl.future-edge.sonarqube.plugins:sonar-issueresolver-plugin:src/main/java/nl/futureedge/sonar/plugin/issueresolver/issues/IssueKey.java",
+		"uuid": "AVrdUwMMGyMCMhQpQjBg",
+		"enabled": true,
+		"qualifier": "FIL",
+		"name": "IssueKey.java",
+		"longName": "src/main/java/nl/futureedge/sonar/plugin/issueresolver/issues/IssueKey.java",
+		"path": "src/main/java/nl/futureedge/sonar/plugin/issueresolver/issues/IssueKey.java",
+		"projectId": 773,
+		"subProjectId": 773
+	},
+	{
+		"organization": "default-organization",
+		"id": 775,
+		"key": "nl.future-edge.sonarqube.plugins:sonar-issueresolver-plugin:pom.xml",
+		"uuid": "AVrbBVB1zV-6LithSZSi",
+		"enabled": true,
+		"qualifier": "FIL",
+		"name": "pom.xml",
+		"longName": "pom.xml",
+		"path": "pom.xml",
+		"projectId": 773,
+		"subProjectId": 773
+	}]
+}
