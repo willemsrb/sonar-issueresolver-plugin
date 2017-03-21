@@ -9,7 +9,7 @@
   <version>1.0-SNAPSHOT</version>
 
   <name>Issue resolver</name>
-  <description>Export and import resolved issues (false-positive and won't fix)</description>
+  <description>Export and import resolved issues (false-positive and won't fix) from SonarQube projects</description>
   <url>https://github.com/willemsrb/sonar-issueresolver-plugin</url>
   <inceptionYear>2017</inceptionYear>
 
