@@ -36,14 +36,15 @@ public class ImportActionTest {
 		localRequestResponsePageOne.setPaging(Common.Paging.newBuilder().setTotal(3).setPageIndex(1).setPageSize(2));
 		localRequestResponsePageOne
 				.addIssues(Issues.Issue.newBuilder().setKey("TotaleAndereKey1").setRule("xml:IllegalTabCheck")
-						.setComponent("nl.future-edge.sonarqube.plugins:sonar-issueresolver-plugin:pom.xml")
+						.setComponent("nl.future-edge.sonarqube.plugins:myBranch:sonar-issueresolver-plugin:pom.xml")
 						.setTextRange(Common.TextRange.newBuilder().setStartLine(4).setStartOffset(0))
 						.setResolution("FALSE-POSITIVE").setStatus("RESOLVED"));
-		localRequestResponsePageOne
-		.addIssues(Issues.Issue.newBuilder().setKey("TotaleAndereKey1b").setRule("xml:IllegalTabCheck")
-				.setComponent("nl.future-edge.sonarqube.plugins:sonar-issueresolver-plugin:pom.xml")
-				.setTextRange(Common.TextRange.newBuilder().setStartLine(14).setStartOffset(0))
-				.setStatus("OPEN"));
+		localRequestResponsePageOne.addIssues(Issues.Issue.newBuilder().setKey("TotaleAndereKey1b")
+				.setRule("xml:IllegalTabCheck")
+				.setComponent("nl.future-edge.sonarqube.plugins:myBranch:sonar-issueresolver-plugin:pom.xml")
+				.setTextRange(Common.TextRange.newBuilder().setStartLine(14).setStartOffset(0)).setStatus("OPEN"));
+		localRequestResponsePageOne.addComponents(Issues.Component.newBuilder()
+				.setKey("nl.future-edge.sonarqube.plugins:myBranch:sonar-issueresolver-plugin:pom.xml").setLongName("pom.xml"));
 
 		request.mockLocalRequest("api/issues/search", localRequestParamsToCheckPageOne,
 				localRequestResponsePageOne.build().toByteArray());
@@ -60,11 +61,14 @@ public class ImportActionTest {
 		localRequestResponsePageTwo
 				.addIssues(Issues.Issue.newBuilder().setKey("TotaleAndereKey2").setRule("squid:S3776")
 						.setComponent(
-								"nl.future-edge.sonarqube.plugins:sonar-issueresolver-plugin:src/main/java/nl/futureedge/sonar/plugin/issueresolver/issues/IssueKey.java")
+								"nl.future-edge.sonarqube.plugins:sonar-issueresolver-plugin:myBranch:src/main/java/nl/futureedge/sonar/plugin/issueresolver/issues/IssueKey.java")
 						.setTextRange(Common.TextRange.newBuilder().setStartLine(64).setStartOffset(16))
 						.setComments(Issues.Comments.newBuilder()
 								.addComments(Issues.Comment.newBuilder().setMarkdown("Comment one")))
 						.setStatus("OPEN"));
+		localRequestResponsePageTwo.addComponents(Issues.Component.newBuilder()
+				.setKey("nl.future-edge.sonarqube.plugins:sonar-issueresolver-plugin:myBranch:src/main/java/nl/futureedge/sonar/plugin/issueresolver/issues/IssueKey.java")
+				.setLongName("src/main/java/nl/futureedge/sonar/plugin/issueresolver/issues/IssueKey.java"));
 		request.mockLocalRequest("api/issues/search", localRequestParamsToCheckPageTwo,
 				localRequestResponsePageTwo.build().toByteArray());
 

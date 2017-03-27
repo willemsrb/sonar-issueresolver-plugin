@@ -1,34 +1,30 @@
 {
 	"version": 1,
 	"issues": [{
+		"longName": "pom.xml",
 		"rule": "xml:IllegalTabCheck",
-		"component": "nl.future-edge.sonarqube.plugins:sonar-issueresolver-plugin:pom.xml",
-		"start": 4,
-		"offset": 0,
+		"line": 4,
 		"resolution": "falsepositive",
 		"comments": []
 	},
 	{
+		"longName": "pom.xml",
 		"rule": "xml:IllegalTabCheck",
-		"component": "nl.future-edge.sonarqube.plugins:sonar-issueresolver-plugin:pom.xml",
-		"start": 4,
-		"offset": 0,
+		"line": 4,
 		"resolution": "falsepositive",
 		"comments": []
 	},
 	{
+		"longName": "pom.xml",
 		"rule": "xml:IllegalTabCheck",
-		"component": "nl.future-edge.sonarqube.plugins:sonar-issueresolver-plugin:pom.xml",
-		"start": 7,
-		"offset": 0,
+		"line": 7,
 		"resolution": "falsepositive",
 		"comments": []
 	},
 	{
+		"longName": "src/main/java/nl/futureedge/sonar/plugin/issueresolver/issues/IssueKey.java",
 		"rule": "squid:S3776",
-		"component": "nl.future-edge.sonarqube.plugins:sonar-issueresolver-plugin:src/main/java/nl/futureedge/sonar/plugin/issueresolver/issues/IssueKey.java",
-		"start": 64,
-		"offset": 16,
+		"line": 64,
 		"resolution": "wontfix",
 		"comments": ["Comment one",
 		"Comment two"]

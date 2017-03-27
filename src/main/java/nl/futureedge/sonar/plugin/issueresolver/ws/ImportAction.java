@@ -82,8 +82,8 @@ public final class ImportAction implements IssueResolverWsAction {
 			LOGGER.debug("Listing issues for project {}; page {}", projectKey, searchIssuesRequest.getPage());
 			final SearchWsResponse searchIssuesResponse = wsClient.issues().search(searchIssuesRequest);
 			for (final Issue issue : searchIssuesResponse.getIssuesList()) {
-				final IssueKey key = IssueKey.fromIssue(issue);
-				LOGGER.debug("Try to match issue: " + key);
+				final IssueKey key = IssueKey.fromIssue(issue, searchIssuesResponse.getComponentsList());
+				LOGGER.debug("Try to match issue: {}", key);
 				// Match with issue from data
 				final IssueData data = issues.remove(key);
 
@@ -101,6 +101,11 @@ public final class ImportAction implements IssueResolverWsAction {
 
 		importResult.registerUnmatchedIssues(issues.size());
 		LOGGER.info("Unmatched issues: " + importResult.getUnmatchedIssues());
+		if(LOGGER.isDebugEnabled()) {
+			for(IssueKey unmatchedIssue : issues.keySet()) {
+				LOGGER.debug(" - {}", unmatchedIssue);
+			}
+		}
 		LOGGER.info("Unresolved issues: " + importResult.getUnresolvedIssues());
 		LOGGER.info("Resolved issues: " + importResult.getResolvedIssues());
 

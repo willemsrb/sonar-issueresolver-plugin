@@ -2,6 +2,7 @@ package nl.futureedge.sonar.plugin.issueresolver.ws;
 
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
 
 import org.sonar.api.server.ws.Request;
 import org.sonar.api.server.ws.Response;
@@ -10,6 +11,7 @@ import org.sonar.api.server.ws.WebService.NewController;
 import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.api.utils.text.JsonWriter;
+import org.sonarqube.ws.Issues.Component;
 import org.sonarqube.ws.Issues.Issue;
 import org.sonarqube.ws.Issues.SearchWsResponse;
 import org.sonarqube.ws.client.WsClient;
@@ -65,7 +67,7 @@ public class ExportAction implements IssueResolverWsAction {
 			LOGGER.debug("Listing issues for project {}; page {}" ,projectKey,searchIssuesRequest.getPage());
 			final SearchWsResponse searchIssuesResponse = wsClient.issues().search(searchIssuesRequest);
 			for (final Issue issue : searchIssuesResponse.getIssuesList()) {
-				writeIssue(responseWriter, issue);
+				writeIssue(responseWriter, issue, searchIssuesResponse.getComponentsList());
 			}
 			
 			doNextPage = searchIssuesResponse.getPaging().getTotal() > (searchIssuesResponse.getPaging().getPageIndex() * searchIssuesResponse.getPaging().getPageSize());
@@ -85,10 +87,10 @@ public class ExportAction implements IssueResolverWsAction {
 		writer.beginArray();
 	}
 
-	private void writeIssue(final JsonWriter writer, final Issue issue) {
+	private void writeIssue(final JsonWriter writer, final Issue issue, List<Component> components) {
 		writer.beginObject();
 
-		final IssueKey key = IssueKey.fromIssue(issue);
+		final IssueKey key = IssueKey.fromIssue(issue, components);
 		key.write(writer);
 
 		final IssueData data = IssueData.fromIssue(issue);
