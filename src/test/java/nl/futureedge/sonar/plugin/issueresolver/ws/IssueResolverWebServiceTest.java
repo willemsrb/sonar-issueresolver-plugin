@@ -2,24 +2,16 @@ package nl.futureedge.sonar.plugin.issueresolver.ws;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.sonar.api.Plugin;
-import org.sonar.api.SonarQubeSide;
-import org.sonar.api.internal.SonarRuntimeImpl;
-import org.sonar.api.server.ws.Request;
-import org.sonar.api.server.ws.RequestHandler;
-import org.sonar.api.server.ws.Response;
 import org.sonar.api.server.ws.WebService;
 import org.sonar.api.server.ws.WebService.Action;
 import org.sonar.api.server.ws.WebService.Controller;
-import org.sonar.api.server.ws.WebService.NewController;
-import org.sonar.api.utils.Version;
 
 public class IssueResolverWebServiceTest {
 
 	@Test
 	public void test() {
-
-		final IssueResolverWebService subject = new IssueResolverWebService(new ExportAction(), new ImportAction());
+		final IssueResolverWebService subject = new IssueResolverWebService(new ExportAction(), new ImportAction(),
+				new UpdateAction());
 
 		final WebService.Context context = new WebService.Context();
 		Assert.assertEquals(0, context.controllers().size());
@@ -29,7 +21,7 @@ public class IssueResolverWebServiceTest {
 		// Controller
 		Controller controller = context.controller("api/issueresolver");
 		Assert.assertNotNull(controller);
-		Assert.assertEquals(2, controller.actions().size());
+		Assert.assertEquals(3, controller.actions().size());
 
 		// Export
 		Action exportAction = controller.action("export");
@@ -46,6 +38,15 @@ public class IssueResolverWebServiceTest {
 		Assert.assertNotNull(importAction.param("projectKey"));
 		Assert.assertNotNull(importAction.param("preview"));
 		Assert.assertNotNull(importAction.param("data"));
+
+		// Update
+		Action updateAction = controller.action("update");
+		Assert.assertNotNull(updateAction);
+		Assert.assertTrue(updateAction.handler() instanceof UpdateAction);
+		Assert.assertEquals(3, updateAction.params().size());
+		Assert.assertNotNull(updateAction.param("fromProjectKey"));
+		Assert.assertNotNull(updateAction.param("projectKey"));
+		Assert.assertNotNull(updateAction.param("preview"));
 	}
 
 }
