@@ -18,7 +18,7 @@ public class IssueResolverPluginTest {
 
 		Assert.assertEquals(0, context.getExtensions().size());
 		subject.define(context);
-		Assert.assertEquals(4, context.getExtensions().size());
+		Assert.assertEquals(5, context.getExtensions().size());
 	}
 
 }
