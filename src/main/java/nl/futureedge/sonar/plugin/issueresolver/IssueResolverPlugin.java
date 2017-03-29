@@ -9,6 +9,7 @@ import nl.futureedge.sonar.plugin.issueresolver.page.IssueResolverPage;
 import nl.futureedge.sonar.plugin.issueresolver.ws.ExportAction;
 import nl.futureedge.sonar.plugin.issueresolver.ws.ImportAction;
 import nl.futureedge.sonar.plugin.issueresolver.ws.IssueResolverWebService;
+import nl.futureedge.sonar.plugin.issueresolver.ws.UpdateAction;
 
 /**
  * Issue resolver plugin.
@@ -21,7 +22,7 @@ public final class IssueResolverPlugin implements Plugin {
 	public void define(final Context context) {
 		if (SonarQubeSide.SERVER == context.getRuntime().getSonarQubeSide()) {
 			LOGGER.info("Defining plugin ...");
-			context.addExtensions(ExportAction.class, ImportAction.class);
+			context.addExtensions(ExportAction.class, ImportAction.class, UpdateAction.class);
 			context.addExtensions(IssueResolverPage.class, IssueResolverWebService.class);
 			LOGGER.info("Plugin defined");
 		}

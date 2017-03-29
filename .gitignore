@@ -33,4 +33,7 @@ buildNumber.properties
 **/.eclipse-pmd
 
 #
+build.cmd
 cp.cmd
+go.cmd
+startup.cmd

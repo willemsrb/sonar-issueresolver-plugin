@@ -1,7 +1,5 @@
 package nl.futureedge.sonar.plugin.issueresolver.ws;
 
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.sonar.api.server.ws.Request;
@@ -13,10 +11,6 @@ import org.sonar.api.utils.log.Loggers;
 import org.sonar.api.utils.text.JsonWriter;
 import org.sonarqube.ws.Issues.Component;
 import org.sonarqube.ws.Issues.Issue;
-import org.sonarqube.ws.Issues.SearchWsResponse;
-import org.sonarqube.ws.client.WsClient;
-import org.sonarqube.ws.client.WsClientFactories;
-import org.sonarqube.ws.client.issue.SearchWsRequest;
 
 import nl.futureedge.sonar.plugin.issueresolver.issues.IssueData;
 import nl.futureedge.sonar.plugin.issueresolver.issues.IssueKey;
@@ -50,30 +44,9 @@ public class ExportAction implements IssueResolverWsAction {
 		final JsonWriter responseWriter = response.newJsonWriter();
 		writeStart(responseWriter);
 
-		// Loop through all issues of the project
-		final WsClient wsClient = WsClientFactories.getLocal().newClient(request.localConnector());
-		
-		final SearchWsRequest searchIssuesRequest = new SearchWsRequest();
-		final String projectKey = request.mandatoryParam(PARAM_PROJECT_KEY);
-		searchIssuesRequest.setProjectKeys(Collections.singletonList(projectKey));
-		searchIssuesRequest.setAdditionalFields(Collections.singletonList("comments"));
-		searchIssuesRequest.setStatuses(Collections.singletonList("RESOLVED"));
-		searchIssuesRequest.setResolutions(Arrays.asList("FALSE-POSITIVE", "WONTFIX"));
-		searchIssuesRequest.setPage(1);
-		searchIssuesRequest.setPageSize(100);
-
-		boolean doNextPage = true;
-		while(doNextPage) {
-			LOGGER.debug("Listing issues for project {}; page {}" ,projectKey,searchIssuesRequest.getPage());
-			final SearchWsResponse searchIssuesResponse = wsClient.issues().search(searchIssuesRequest);
-			for (final Issue issue : searchIssuesResponse.getIssuesList()) {
-				writeIssue(responseWriter, issue, searchIssuesResponse.getComponentsList());
-			}
-			
-			doNextPage = searchIssuesResponse.getPaging().getTotal() > (searchIssuesResponse.getPaging().getPageIndex() * searchIssuesResponse.getPaging().getPageSize());
-			searchIssuesRequest.setPage(searchIssuesResponse.getPaging().getPageIndex() + 1);
-			searchIssuesRequest.setPageSize(searchIssuesResponse.getPaging().getPageSize());
-		}
+		ActionHelper.forEachIssue(request.localConnector(),
+				ActionHelper.findResolvedIssuesFor(request.mandatoryParam(PARAM_PROJECT_KEY)), (searchIssuesResponse,
+						issue) -> writeIssue(responseWriter, issue, searchIssuesResponse.getComponentsList()));
 
 		writeEnd(responseWriter);
 		responseWriter.close();
