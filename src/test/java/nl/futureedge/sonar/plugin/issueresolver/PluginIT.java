@@ -54,6 +54,7 @@ import com.sonar.orchestrator.locator.FileLocation;
 import nl.futureedge.sonar.plugin.issueresolver.ws.ExportAction;
 import nl.futureedge.sonar.plugin.issueresolver.ws.ImportAction;
 import nl.futureedge.sonar.plugin.issueresolver.ws.IssueResolverWebService;
+import nl.futureedge.sonar.plugin.issueresolver.ws.UpdateAction;
 
 @RunWith(Parameterized.class)
 public class PluginIT {
@@ -140,21 +141,38 @@ public class PluginIT {
 		Assert.assertEquals(RESULT_ISSUES, resultB);
 
 		// BRANCH
-		runSonar("myBranch");
-		final String branchProjectKey = "nl.future-edge.sonarqube.plugins:sonar-issueresolver-plugin-it:myBranch";
+		runSonar("branchOne");
+		final String branchOneProjectKey = "nl.future-edge.sonarqube.plugins:sonar-issueresolver-plugin-it:branchOne";
 
 		// Export issues (no issues expected)
-		final String resultC = exportIssues(branchProjectKey);
+		final String resultC = exportIssues(branchOneProjectKey);
 		LOGGER.info("Result C: {}", resultC);
 		Assert.assertEquals(RESULT_NO_ISSUES, resultC);
 
 		// Import issues from master export into branch
-		importResolvedIssues(branchProjectKey, resultB);
+		importResolvedIssues(branchOneProjectKey, resultB);
 
 		// Export issues (two issues expected)
-		final String resultD = exportIssues(branchProjectKey);
+		final String resultD = exportIssues(branchOneProjectKey);
 		LOGGER.info("Result D: {}", resultD);
 		Assert.assertEquals(RESULT_ISSUES, resultD);
+
+		// SECOND BRANCH
+		runSonar("branchTwo");
+		final String branchTwoProjectKey = "nl.future-edge.sonarqube.plugins:sonar-issueresolver-plugin-it:branchTwo";
+
+		// Export issues (no issues expected)
+		final String resultE = exportIssues(branchTwoProjectKey);
+		LOGGER.info("Result E: {}", resultE);
+		Assert.assertEquals(RESULT_NO_ISSUES, resultE);
+
+		// Import issues from master export into branch
+		updateResolvedIssues(masterProjectKey, branchTwoProjectKey);
+
+		// Export issues (two issues expected)
+		final String resultF = exportIssues(branchTwoProjectKey);
+		LOGGER.info("Result F: {}", resultF);
+		Assert.assertEquals(RESULT_ISSUES, resultF);
 	}
 
 	private String exportIssues(final String projectKey) {
@@ -231,6 +249,12 @@ public class PluginIT {
 		} finally {
 			post.releaseConnection();
 		}
+	}
+
+	private String updateResolvedIssues(final String fromProjectKey, final String projectKey) {
+		LOGGER.info("Updating issues from project {} to project {}", fromProjectKey, projectKey);
+		final UpdateQuery updateQuery = new UpdateQuery(fromProjectKey, projectKey);
+		return orchestrator.getServer().getAdminWsClient().getConnector().execute(updateQuery);
 	}
 
 	/**
@@ -317,4 +341,33 @@ public class PluginIT {
 		}
 	}
 
+	/**
+	 * Update issues.
+	 */
+	private final class UpdateQuery extends CreateQuery<Model> {
+
+		public static final String BASE_URL = "/" + IssueResolverWebService.CONTROLLER_PATH + "/" + UpdateAction.ACTION;
+
+		private String fromProjectKey;
+		private String projectKey;
+
+		public UpdateQuery(final String fromProjectKey, final String projectKey) {
+			this.fromProjectKey = fromProjectKey;
+			this.projectKey = projectKey;
+		}
+
+		@Override
+		public Class<Model> getModelClass() {
+			return Model.class;
+		}
+
+		@Override
+		public String getUrl() {
+			final StringBuilder url = new StringBuilder(BASE_URL);
+			url.append('?');
+			appendUrlParameter(url, UpdateAction.PARAM_FROM_PROJECT_KEY, fromProjectKey);
+			appendUrlParameter(url, UpdateAction.PARAM_PROJECT_KEY, projectKey);
+			return url.toString();
+		}
+	}
 }
