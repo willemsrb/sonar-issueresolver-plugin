@@ -27,6 +27,7 @@ public final class UpdateAction implements IssueResolverWsAction {
 	public static final String PARAM_PREVIEW = "preview";
 	public static final String PARAM_SKIP_ASSIGN = "skipAssign";
 	public static final String PARAM_SKIP_COMMENTS = "skipComments";
+	private static final String FALSE = "false";
 
 	private static final Logger LOGGER = Loggers.get(UpdateAction.class);
 
@@ -37,11 +38,9 @@ public final class UpdateAction implements IssueResolverWsAction {
 				.setDescription("Update issues from in one project based on another.").setHandler(this).setPost(true);
 		action.createParam(PARAM_PROJECT_KEY).setDescription("Project to resolve issues in").setRequired(true);
 		action.createParam(PARAM_FROM_PROJECT_KEY).setDescription("Project to read issues from").setRequired(true);
-		action.createParam(PARAM_PREVIEW).setDescription("If import should be a preview").setDefaultValue("false");
-		action.createParam(PARAM_SKIP_ASSIGN).setDescription("If assignment should be skipped")
-				.setDefaultValue("false");
-		action.createParam(PARAM_SKIP_COMMENTS).setDescription("If comments should be skipped")
-				.setDefaultValue("false");
+		action.createParam(PARAM_PREVIEW).setDescription("If import should be a preview").setDefaultValue(FALSE);
+		action.createParam(PARAM_SKIP_ASSIGN).setDescription("If assignment should be skipped").setDefaultValue(FALSE);
+		action.createParam(PARAM_SKIP_COMMENTS).setDescription("If comments should be skipped").setDefaultValue(FALSE);
 		LOGGER.debug("Update action defined");
 	}
 
