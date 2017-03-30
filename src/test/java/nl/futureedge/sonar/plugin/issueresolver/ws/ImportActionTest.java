@@ -44,7 +44,8 @@ public class ImportActionTest {
 				.setComponent("nl.future-edge.sonarqube.plugins:myBranch:sonar-issueresolver-plugin:pom.xml")
 				.setTextRange(Common.TextRange.newBuilder().setStartLine(14).setStartOffset(0)).setStatus("OPEN"));
 		localRequestResponsePageOne.addComponents(Issues.Component.newBuilder()
-				.setKey("nl.future-edge.sonarqube.plugins:myBranch:sonar-issueresolver-plugin:pom.xml").setLongName("pom.xml"));
+				.setKey("nl.future-edge.sonarqube.plugins:myBranch:sonar-issueresolver-plugin:pom.xml")
+				.setLongName("pom.xml"));
 
 		request.mockLocalRequest("api/issues/search", localRequestParamsToCheckPageOne,
 				localRequestResponsePageOne.build().toByteArray());
@@ -99,8 +100,9 @@ public class ImportActionTest {
 
 		// Validate
 		final String result = new String(response.result(), "UTF-8");
-		Assert.assertEquals(
-				"{\"preview\":false,\"issues\":4,\"duplicateKeys\":1,\"unmatchedIssues\":1,\"unresolvedIssues\":1,\"resolvedIssues\":1}",
+		Assert.assertEquals("{\"preview\":false,\"issues\":4,\"duplicateKeys\":1,"
+				+ "\"matchedIssues\":2,\"matchFailures\":[]," + "\"transitionedIssues\":1,\"transitionFailures\":[],"
+				+ "\"assignedIssues\":0,\"assignFailures\":[]," + "\"commentedIssues\":1,\"commentFailures\":[]}",
 				result);
 	}
 }

@@ -21,8 +21,7 @@ public class ExportActionTest {
 		final Map<String, String> localRequestParamsToCheckPageOne = new HashMap<>();
 		localRequestParamsToCheckPageOne.put("projectKeys", "my-project-key");
 		localRequestParamsToCheckPageOne.put("additionalFields", "comments");
-		localRequestParamsToCheckPageOne.put("statuses", "RESOLVED");
-		localRequestParamsToCheckPageOne.put("resolutions", "FALSE-POSITIVE,WONTFIX");
+		localRequestParamsToCheckPageOne.put("statuses", "CONFIRMED,REOPENED,RESOLVED");
 		localRequestParamsToCheckPageOne.put("p", "1");
 		localRequestParamsToCheckPageOne.put("ps", "100");
 
@@ -42,8 +41,7 @@ public class ExportActionTest {
 		final Map<String, String> localRequestParamsToCheckPageTwo = new HashMap<>();
 		localRequestParamsToCheckPageTwo.put("projectKeys", "my-project-key");
 		localRequestParamsToCheckPageTwo.put("additionalFields", "comments");
-		localRequestParamsToCheckPageTwo.put("statuses", "RESOLVED");
-		localRequestParamsToCheckPageTwo.put("resolutions", "FALSE-POSITIVE,WONTFIX");
+		localRequestParamsToCheckPageTwo.put("statuses", "CONFIRMED,REOPENED,RESOLVED");
 		localRequestParamsToCheckPageTwo.put("p", "2");
 		localRequestParamsToCheckPageTwo.put("ps", "1");
 
@@ -71,7 +69,10 @@ public class ExportActionTest {
 		// Validate
 		final String result = new String(response.result(), "UTF-8");
 		Assert.assertEquals(
-				"{\"version\":1,\"issues\":[{\"longName\":\"pom.xml\",\"rule\":\"xml:IllegalTabCheck\",\"line\":4,\"resolution\":\"falsepositive\",\"comments\":[]},{\"longName\":\"src/main/java/nl/futureedge/sonar/plugin/issueresolver/issues/IssueKey.java\",\"rule\":\"squid:S3776\",\"line\":64,\"resolution\":\"wontfix\",\"comments\":[]}]}",
+				"{\"version\":1,\"issues\":["
+				+ "{\"longName\":\"pom.xml\",\"rule\":\"xml:IllegalTabCheck\",\"line\":4,\"status\":\"RESOLVED\",\"resolution\":\"FALSE-POSITIVE\",\"assignee\":\"\",\"comments\":[]},"
+				+ "{\"longName\":\"src/main/java/nl/futureedge/sonar/plugin/issueresolver/issues/IssueKey.java\",\"rule\":\"squid:S3776\",\"line\":64,\"status\":\"RESOLVED\",\"resolution\":\"WONTFIX\",\"assignee\":\"\",\"comments\":[]}"
+				+ "]}",
 				result);
 	}
 }

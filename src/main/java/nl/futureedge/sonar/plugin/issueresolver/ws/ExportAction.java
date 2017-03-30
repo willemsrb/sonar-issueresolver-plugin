@@ -12,6 +12,8 @@ import org.sonar.api.utils.text.JsonWriter;
 import org.sonarqube.ws.Issues.Component;
 import org.sonarqube.ws.Issues.Issue;
 
+import nl.futureedge.sonar.plugin.issueresolver.helper.IssueHelper;
+import nl.futureedge.sonar.plugin.issueresolver.helper.SearchHelper;
 import nl.futureedge.sonar.plugin.issueresolver.issues.IssueData;
 import nl.futureedge.sonar.plugin.issueresolver.issues.IssueKey;
 
@@ -44,8 +46,8 @@ public class ExportAction implements IssueResolverWsAction {
 		final JsonWriter responseWriter = response.newJsonWriter();
 		writeStart(responseWriter);
 
-		ActionHelper.forEachIssue(request.localConnector(),
-				ActionHelper.findResolvedIssuesFor(request.mandatoryParam(PARAM_PROJECT_KEY)), (searchIssuesResponse,
+		IssueHelper.forEachIssue(request.localConnector(),
+				SearchHelper.findIssuesForExport(request.mandatoryParam(PARAM_PROJECT_KEY)), (searchIssuesResponse,
 						issue) -> writeIssue(responseWriter, issue, searchIssuesResponse.getComponentsList()));
 
 		writeEnd(responseWriter);

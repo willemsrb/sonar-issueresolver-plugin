@@ -1,5 +1,8 @@
 package nl.futureedge.sonar.plugin.issueresolver.ws;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.sonar.api.utils.text.JsonWriter;
 
 /**
@@ -10,9 +13,14 @@ public final class ImportResult {
 	private boolean preview = false;
 	private int issues = 0;
 	private int duplicateKeys = 0;
-	private int unmatchedIssues = 0;
-	private int unresolvedIssues = 0;
-	private int resolvedIssues = 0;
+	private int matchedIssues = 0;
+	private List<String> matchFailures = new ArrayList<>();
+	private int transitionedIssues = 0;
+	private List<String> transitionFailures = new ArrayList<>();
+	private int assignedIssues = 0;
+	private List<String> assignFailures = new ArrayList<>();
+	private int commentedIssues = 0;
+	private List<String> commentFailures = new ArrayList<>();
 
 	public void setPreview(final boolean preview) {
 		this.preview = preview;
@@ -34,28 +42,52 @@ public final class ImportResult {
 		return duplicateKeys;
 	}
 
-	public void registerUnmatchedIssues(final int unmatchedIssues) {
-		this.unmatchedIssues = unmatchedIssues;
+	public void registerMatchedIssue() {
+		matchedIssues++;
 	}
 
-	public int getUnmatchedIssues() {
-		return unmatchedIssues;
+	public int getMatchedIssues() {
+		return matchedIssues;
 	}
 
-	public void registerUnresolvedIssue() {
-		unresolvedIssues++;
+	public void registerMatchFailure(String failure) {
+		matchFailures.add(failure);
 	}
 
-	public int getUnresolvedIssues() {
-		return unresolvedIssues;
+	public void registerTransitionedIssue() {
+		transitionedIssues++;
 	}
 
-	public void registerResolvedIssue() {
-		resolvedIssues++;
+	public int getTransitionedIssues() {
+		return transitionedIssues;
 	}
 
-	public int getResolvedIssues() {
-		return resolvedIssues;
+	public void registerTransitionFailure(String failure) {
+		transitionFailures.add(failure);
+	}
+
+	public void registerAssignedIssue() {
+		assignedIssues++;
+	}
+
+	public int getAssignedIssues() {
+		return assignedIssues;
+	}
+
+	public void registerAssignFailure(String failure) {
+		assignFailures.add(failure);
+	}
+
+	public void registerCommentedIssue() {
+		commentedIssues++;
+	}
+
+	public int getCommentedIssues() {
+		return commentedIssues;
+	}
+
+	public void registerCommentFailure(String failure) {
+		commentFailures.add(failure);
 	}
 
 	public void write(final JsonWriter writer) {
@@ -63,9 +95,26 @@ public final class ImportResult {
 		writer.prop("preview", preview);
 		writer.prop("issues", issues);
 		writer.prop("duplicateKeys", duplicateKeys);
-		writer.prop("unmatchedIssues", unmatchedIssues);
-		writer.prop("unresolvedIssues", unresolvedIssues);
-		writer.prop("resolvedIssues", resolvedIssues);
+		writer.prop("matchedIssues", matchedIssues);
+		writer.name("matchFailures");
+		writer.beginArray();
+		writer.values(matchFailures);
+		writer.endArray();		
+		writer.prop("transitionedIssues", transitionedIssues);
+		writer.name("transitionFailures");
+		writer.beginArray();
+		writer.values(transitionFailures);
+		writer.endArray();
+		writer.prop("assignedIssues", assignedIssues);
+		writer.name("assignFailures");
+		writer.beginArray();
+		writer.values(assignFailures);
+		writer.endArray();
+		writer.prop("commentedIssues", commentedIssues);
+		writer.name("commentFailures");
+		writer.beginArray();
+		writer.values(commentFailures);
+		writer.endArray();
 		writer.endObject();
 	}
 }

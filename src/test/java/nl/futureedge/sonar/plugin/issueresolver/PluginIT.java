@@ -56,6 +56,7 @@ import nl.futureedge.sonar.plugin.issueresolver.ws.ImportAction;
 import nl.futureedge.sonar.plugin.issueresolver.ws.IssueResolverWebService;
 import nl.futureedge.sonar.plugin.issueresolver.ws.UpdateAction;
 
+
 @RunWith(Parameterized.class)
 public class PluginIT {
 
@@ -63,8 +64,8 @@ public class PluginIT {
 
 	private static final String RESULT_NO_ISSUES = "{\"version\":1,\"issues\":[]}";
 	private static final String RESULT_ISSUES = "{\"version\":1,\"issues\":["
-			+ "{\"longName\":\"src/main/java/TestClass.java\",\"rule\":\"squid:S1220\",\"line\":0,\"resolution\":\"wontfix\",\"comments\":[]},"
-			+ "{\"longName\":\"src/main/java/TestClass.java\",\"rule\":\"squid:S106\",\"line\":6,\"resolution\":\"falsepositive\",\"comments\":[]}"
+			+ "{\"longName\":\"src/main/java/TestClass.java\",\"rule\":\"squid:S1220\",\"line\":0,\"status\":\"RESOLVED\",\"resolution\":\"WONTFIX\",\"assignee\":\"\",\"comments\":[]},"
+			+ "{\"longName\":\"src/main/java/TestClass.java\",\"rule\":\"squid:S106\",\"line\":6,\"status\":\"RESOLVED\",\"resolution\":\"FALSE-POSITIVE\",\"assignee\":\"\",\"comments\":[]}"
 			+ "]}";
 
 	@Parameters

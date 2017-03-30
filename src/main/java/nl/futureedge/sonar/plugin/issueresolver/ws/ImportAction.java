@@ -13,6 +13,7 @@ import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.api.utils.text.JsonWriter;
 
+import nl.futureedge.sonar.plugin.issueresolver.helper.IssueHelper;
 import nl.futureedge.sonar.plugin.issueresolver.issues.IssueData;
 import nl.futureedge.sonar.plugin.issueresolver.issues.IssueKey;
 import nl.futureedge.sonar.plugin.issueresolver.json.JsonReader;
@@ -51,17 +52,8 @@ public final class ImportAction implements IssueResolverWsAction {
 		LOGGER.info("Read " + importResult.getIssues() + " issues (having " + importResult.getDuplicateKeys()
 				+ " duplicate keys)");
 
-		ActionHelper.resolveIssues(request.localConnector(), importResult,
+		IssueHelper.resolveIssues(request.localConnector(), importResult,
 				request.mandatoryParamAsBoolean(PARAM_PREVIEW), request.mandatoryParam(PARAM_PROJECT_KEY), issues);
-
-		LOGGER.info("Unmatched issues: " + importResult.getUnmatchedIssues());
-		if (LOGGER.isDebugEnabled()) {
-			for (IssueKey unmatchedIssue : issues.keySet()) {
-				LOGGER.debug(" - {}", unmatchedIssue);
-			}
-		}
-		LOGGER.info("Unresolved issues: " + importResult.getUnresolvedIssues());
-		LOGGER.info("Resolved issues: " + importResult.getResolvedIssues());
 
 		// Sent result
 		final JsonWriter responseWriter = response.newJsonWriter();

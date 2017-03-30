@@ -23,8 +23,7 @@ public class UpdateActionTest {
 		final Map<String, String> localRequestBaseParamsToCheckPageOne = new HashMap<>();
 		localRequestBaseParamsToCheckPageOne.put("projectKeys", "base-project-key");
 		localRequestBaseParamsToCheckPageOne.put("additionalFields", "comments");
-		localRequestBaseParamsToCheckPageOne.put("statuses", "RESOLVED");
-		localRequestBaseParamsToCheckPageOne.put("resolutions", "FALSE-POSITIVE,WONTFIX");
+		localRequestBaseParamsToCheckPageOne.put("statuses", "CONFIRMED,REOPENED,RESOLVED");
 		localRequestBaseParamsToCheckPageOne.put("p", "1");
 		localRequestBaseParamsToCheckPageOne.put("ps", "100");
 
@@ -50,8 +49,7 @@ public class UpdateActionTest {
 		final Map<String, String> localRequestBaseParamsToCheckPageTwo = new HashMap<>();
 		localRequestBaseParamsToCheckPageTwo.put("projectKeys", "base-project-key");
 		localRequestBaseParamsToCheckPageTwo.put("additionalFields", "comments");
-		localRequestBaseParamsToCheckPageTwo.put("statuses", "RESOLVED");
-		localRequestBaseParamsToCheckPageTwo.put("resolutions", "FALSE-POSITIVE,WONTFIX");
+		localRequestBaseParamsToCheckPageTwo.put("statuses", "CONFIRMED,REOPENED,RESOLVED");
 		localRequestBaseParamsToCheckPageTwo.put("p", "2");
 		localRequestBaseParamsToCheckPageTwo.put("ps", "2");
 
@@ -145,8 +143,9 @@ public class UpdateActionTest {
 
 		// Validate
 		final String result = new String(response.result(), "UTF-8");
-		Assert.assertEquals(
-				"{\"preview\":false,\"issues\":3,\"duplicateKeys\":0,\"unmatchedIssues\":1,\"unresolvedIssues\":1,\"resolvedIssues\":1}",
+		Assert.assertEquals("{\"preview\":false,\"issues\":3,\"duplicateKeys\":0,"
+				+ "\"matchedIssues\":2,\"matchFailures\":[]," + "\"transitionedIssues\":1,\"transitionFailures\":[],"
+				+ "\"assignedIssues\":0,\"assignFailures\":[]," + "\"commentedIssues\":0,\"commentFailures\":[]}",
 				result);
 	}
 }

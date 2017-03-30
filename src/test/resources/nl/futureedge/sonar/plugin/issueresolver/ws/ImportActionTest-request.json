@@ -4,28 +4,36 @@
 		"longName": "pom.xml",
 		"rule": "xml:IllegalTabCheck",
 		"line": 4,
-		"resolution": "falsepositive",
+		"status": "RESOLVED",
+		"resolution": "FALSE-POSITIVE",
+		"assignee": "",
 		"comments": []
 	},
 	{
 		"longName": "pom.xml",
 		"rule": "xml:IllegalTabCheck",
 		"line": 4,
-		"resolution": "falsepositive",
+		"status": "RESOLVED",
+		"resolution": "FALSE-POSITIVE",
+		"assignee": "",
 		"comments": []
 	},
 	{
 		"longName": "pom.xml",
 		"rule": "xml:IllegalTabCheck",
 		"line": 7,
-		"resolution": "falsepositive",
+		"status": "RESOLVED",
+		"resolution": "FALSE-POSITIVE",
+		"assignee": "",
 		"comments": []
 	},
 	{
 		"longName": "src/main/java/nl/futureedge/sonar/plugin/issueresolver/issues/IssueKey.java",
 		"rule": "squid:S3776",
 		"line": 64,
-		"resolution": "wontfix",
+		"status": "RESOLVED",
+		"resolution": "WONTFIX",
+		"assignee": "",
 		"comments": ["Comment one",
 		"Comment two"]
 	}]

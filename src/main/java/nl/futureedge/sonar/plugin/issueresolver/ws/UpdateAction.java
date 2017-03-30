@@ -11,6 +11,8 @@ import org.sonar.api.utils.log.Logger;
 import org.sonar.api.utils.log.Loggers;
 import org.sonar.api.utils.text.JsonWriter;
 
+import nl.futureedge.sonar.plugin.issueresolver.helper.IssueHelper;
+import nl.futureedge.sonar.plugin.issueresolver.helper.SearchHelper;
 import nl.futureedge.sonar.plugin.issueresolver.issues.IssueData;
 import nl.futureedge.sonar.plugin.issueresolver.issues.IssueKey;
 
@@ -44,8 +46,8 @@ public final class UpdateAction implements IssueResolverWsAction {
 
 		// Read issues from project
 		final Map<IssueKey, IssueData> issues = new HashMap<>();
-		ActionHelper.forEachIssue(request.localConnector(),
-				ActionHelper.findResolvedIssuesFor(request.mandatoryParam(PARAM_FROM_PROJECT_KEY)),
+		IssueHelper.forEachIssue(request.localConnector(),
+				SearchHelper.findIssuesForExport(request.mandatoryParam(PARAM_FROM_PROJECT_KEY)),
 				(searchIssuesResponse, issue) -> {
 					issues.put(IssueKey.fromIssue(issue, searchIssuesResponse.getComponentsList()),
 							IssueData.fromIssue(issue));
@@ -53,17 +55,8 @@ public final class UpdateAction implements IssueResolverWsAction {
 				});
 		LOGGER.info("Read " + importResult.getIssues() + " issues");
 
-		ActionHelper.resolveIssues(request.localConnector(), importResult,
+		IssueHelper.resolveIssues(request.localConnector(), importResult,
 				request.mandatoryParamAsBoolean(PARAM_PREVIEW), request.mandatoryParam(PARAM_PROJECT_KEY), issues);
-
-		LOGGER.info("Unmatched issues: " + importResult.getUnmatchedIssues());
-		if (LOGGER.isDebugEnabled()) {
-			for (IssueKey unmatchedIssue : issues.keySet()) {
-				LOGGER.debug(" - {}", unmatchedIssue);
-			}
-		}
-		LOGGER.info("Unresolved issues: " + importResult.getUnresolvedIssues());
-		LOGGER.info("Resolved issues: " + importResult.getResolvedIssues());
 
 		// Sent result
 		final JsonWriter responseWriter = response.newJsonWriter();
