@@ -46,11 +46,11 @@ define(['dom', 'result'], function(dom, result) {
 						    '/api/issueresolver/update',
 						    new FormData(formUpdate)
 						).then(function(response) {
-							dom.createElement(divUpdateResult, 'div', { textContent: result.formatResult('Update', response) });
+							divUpdateResult.appendChild(result.formatResult('Update', response));
 							divUpdateResult.style.display='block';
 							formUpdateButtonButton.disabled=false;
 						}).catch(function (error) {
-							dom.createElement(divUpdateResult, 'div', { textContent: result.formatError('Update', error) });
+							divUpdateResult.appendChild(result.formatError('Update', error));
 							divUpdateResult.style.display='block';
 							formUpdateButtonButton.disabled=false;
 						});

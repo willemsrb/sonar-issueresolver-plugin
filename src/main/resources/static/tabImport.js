@@ -46,11 +46,11 @@ define(['dom', 'result'], function(dom, result) {
 						    '/api/issueresolver/import',
 						    new FormData(formImport)
 						).then(function(response) {
-							dom.createElement(divImportResult, 'div', { textContent: result.formatResult('Import', response) });
+							divImportResult.appendChild(result.formatResult('Import', response));
 							divImportResult.style.display='block';
 							formImportButtonButton.disabled=false;
 						}).catch(function (error) {
-							dom.createElement(divImportResult, 'div', { textContent: result.formatError('Import', error) });
+							divImportResult.appendChild(result.formatError('Import', error));
 							divImportResult.style.display='block';
 							formImportButtonButton.disabled=false;
 						});
