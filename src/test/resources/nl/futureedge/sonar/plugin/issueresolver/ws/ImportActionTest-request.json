@@ -1,6 +1,16 @@
-{
+{ // Yes, comments are invalid in JSON, but the test filters them out
 	"version": 1,
-	"issues": [{
+	"issues": [
+	{ // MATCHED ISSUE (NO ACTION; ASSIGN)
+		"longName": "pom.xml",
+		"rule": "xml:IllegalTabCheck",
+		"line": 4,
+		"status": "RESOLVED",
+		"resolution": "FALSE-POSITIVE",
+		"assignee": "admin",
+		"comments": []
+	},
+	{ // DUPLICATE KEY
 		"longName": "pom.xml",
 		"rule": "xml:IllegalTabCheck",
 		"line": 4,
@@ -9,16 +19,7 @@
 		"assignee": "",
 		"comments": []
 	},
-	{
-		"longName": "pom.xml",
-		"rule": "xml:IllegalTabCheck",
-		"line": 4,
-		"status": "RESOLVED",
-		"resolution": "FALSE-POSITIVE",
-		"assignee": "",
-		"comments": []
-	},
-	{
+	{ // UNMATCHED ISSUE
 		"longName": "pom.xml",
 		"rule": "xml:IllegalTabCheck",
 		"line": 7,
@@ -27,14 +28,68 @@
 		"assignee": "",
 		"comments": []
 	},
-	{
+	{ // MATCHED ISSUE (CONFIRM; NO ASSIGN)
 		"longName": "src/main/java/nl/futureedge/sonar/plugin/issueresolver/issues/IssueKey.java",
 		"rule": "squid:S3776",
-		"line": 64,
+		"line": 55,
+		"status": "CONFIRMED",
+		"resolution": "",
+		"assignee": "admin",
+		"comments": []
+	},
+	{ // MATCHED ISSUE (UNCONFIRM; REASSIGN)
+		"longName": "src/main/java/nl/futureedge/sonar/plugin/issueresolver/issues/IssueKey.java",
+		"rule": "squid:S3776",
+		"line": 56,
+		"status": "REOPENED",
+		"resolution": "",
+		"assignee": "unknown",
+		"comments": []
+	},
+	{ // MATCHED ISSUE (REOPEN)
+		"longName": "src/main/java/nl/futureedge/sonar/plugin/issueresolver/issues/IssueKey.java",
+		"rule": "squid:S3776",
+		"line": 57,
+		"status": "REOPENED",
+		"resolution": "",
+		"assignee": "",
+		"comments": []
+	},
+	{ // MATCHED ISSUE (RESOLVE FIXED)
+		"longName": "src/main/java/nl/futureedge/sonar/plugin/issueresolver/issues/IssueKey.java",
+		"rule": "squid:S3776",
+		"line": 58,
+		"status": "RESOLVED",
+		"resolution": "FIXED",
+		"assignee": "",
+		"comments": []
+	},
+	{ // MATCHED ISSUE (RESOLVE FALSE-POSITIVE)
+		"longName": "src/main/java/nl/futureedge/sonar/plugin/issueresolver/issues/IssueKey.java",
+		"rule": "squid:S3776",
+		"line": 59,
+		"status": "RESOLVED",
+		"resolution": "FALSE-POSITIVE",
+		"assignee": "",
+		"comments": []
+	},
+	{ // MATCHED ISSUE (RESOLVE WONTFIX; ADD COMMENT)
+		"longName": "src/main/java/nl/futureedge/sonar/plugin/issueresolver/issues/IssueKey.java",
+		"rule": "squid:S3776",
+		"line": 60,
 		"status": "RESOLVED",
 		"resolution": "WONTFIX",
 		"assignee": "",
-		"comments": ["Comment one",
-		"Comment two"]
-	}]
+		"comments": ["Comment one","Comment two","Comment three"]
+	},
+	{ // MATCHED ISSUE (MATCH FAILURE)
+		"longName": "src/main/java/nl/futureedge/sonar/plugin/issueresolver/issues/IssueKey.java",
+		"rule": "squid:S3776",
+		"line": 61,
+		"status": "RESOLVED",
+		"resolution": "FALSE-POSITIVE",
+		"assignee": "",
+		"comments": []
+	}
+	]
 }

@@ -177,7 +177,9 @@ public final class IssueHelper {
 
 	private static void handleAssignee(final WsConnector wsConnector, final Issue issue, final String assignee,
 			final boolean preview, final ImportResult importResult) {
-		if (assignee != null && !"".equals(assignee) && !assignee.equals(issue.getAssignee())) {
+		LOGGER.debug("Handle assignee '{}' for issue with key '{}'", assignee, issue.getKey());
+		final String currentAssignee = issue.getAssignee() == null ? "" : issue.getAssignee();
+		if (!currentAssignee.equals(assignee)) {
 			if (!preview) {
 				assignIssue(wsConnector, issue.getKey(), assignee, importResult);
 			}
@@ -187,13 +189,14 @@ public final class IssueHelper {
 
 	private static void assignIssue(final WsConnector wsConnector, final String issue, final String assignee,
 			final ImportResult importResult) {
+		LOGGER.debug("Assigning '{}' for issue with key '{}'", assignee, issue);
 		final WsRequest request = new PostRequest(PATH_ASSIGN).setParam(PARAM_ISSUE, issue).setParam(PARAM_ASSIGNEE,
 				assignee);
 		final WsResponse response = wsConnector.call(request);
 
 		if (!response.isSuccessful()) {
 			LOGGER.debug("Failed to assign issue: " + response.content());
-			importResult.registerTransitionFailure(
+			importResult.registerAssignFailure(
 					"Could not assign issue with key '" + issue + "' to user '" + assignee + "'");
 		}
 	}
@@ -236,7 +239,7 @@ public final class IssueHelper {
 
 		if (!response.isSuccessful()) {
 			LOGGER.debug("Failed to add comment to issue: " + response.content());
-			importResult.registerTransitionFailure("Could not add comment to issue with key '" + issue + "'");
+			importResult.registerCommentFailure("Could not add comment to issue with key '" + issue + "'");
 		}
 	}
 

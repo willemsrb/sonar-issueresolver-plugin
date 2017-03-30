@@ -102,8 +102,10 @@ public final class ImportAction implements IssueResolverWsAction {
 			final IssueData data = IssueData.read(reader);
 			importResult.registerIssue();
 
-			if (issues.put(key, data) != null) {
+			if (issues.containsKey(key)) {
 				importResult.registerDuplicateKey();
+			} else {
+				issues.put(key, data);
 			}
 			reader.endObject();
 		}

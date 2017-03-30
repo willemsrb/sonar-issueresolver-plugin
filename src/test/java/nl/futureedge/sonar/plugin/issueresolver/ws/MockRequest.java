@@ -129,13 +129,22 @@ public class MockRequest extends Request {
 	private Map<String, List<LocalRequestData>> localRequests = new HashMap<>();
 
 	public void mockLocalRequest(String path, Map<String, String> paramsToCheck, byte[] resultToSend) {
+		mockLocalRequest(path, paramsToCheck, 200, resultToSend);
+	}
+	
+	public void mockLocalRequest(String path, Map<String, String> paramsToCheck, int status, byte[] resultToSend) {
 		if (!localRequests.containsKey(path)) {
 			localRequests.put(path, new ArrayList<LocalRequestData>());
 		}
 
-		localRequests.get(path).add(new LocalRequestData(paramsToCheck, resultToSend));
+		localRequests.get(path).add(new LocalRequestData(paramsToCheck,status, resultToSend));
 	}
-
+	public void validateNoMoreLocalRequests() {
+		for(Map.Entry<String,List<LocalRequestData>> localRequest : localRequests.entrySet()) {
+			Assert.assertTrue("Not all requests for " + localRequest.getKey() + " have been called" , localRequest.getValue().isEmpty());
+		}
+	}
+	
 	private final class LocalRequestAnswer implements Answer<LocalResponse> {
 
 		@Override
@@ -162,11 +171,13 @@ public class MockRequest extends Request {
 
 	private final class LocalRequestData implements LocalResponse {
 		private final Map<String, String> paramsToCheck;
+		private final int status;
 		private final byte[] resultToSend;
 
-		public LocalRequestData(Map<String, String> paramsToCheck, byte[] resultToSend) {
+		public LocalRequestData(Map<String, String> paramsToCheck, int status, byte[] resultToSend) {
 			super();
 			this.paramsToCheck = paramsToCheck;
+			this.status = status;
 			this.resultToSend = resultToSend;
 		}
 
@@ -176,7 +187,7 @@ public class MockRequest extends Request {
 
 		@Override
 		public int getStatus() {
-			return 200;
+			return status;
 		}
 
 		@Override
@@ -200,4 +211,5 @@ public class MockRequest extends Request {
 			throw new UnsupportedOperationException();
 		}
 	}
+
 }

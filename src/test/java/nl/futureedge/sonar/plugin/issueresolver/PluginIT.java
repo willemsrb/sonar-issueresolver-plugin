@@ -30,6 +30,7 @@ import org.apache.http.util.EntityUtils;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -55,7 +56,6 @@ import nl.futureedge.sonar.plugin.issueresolver.ws.ExportAction;
 import nl.futureedge.sonar.plugin.issueresolver.ws.ImportAction;
 import nl.futureedge.sonar.plugin.issueresolver.ws.IssueResolverWebService;
 import nl.futureedge.sonar.plugin.issueresolver.ws.UpdateAction;
-
 
 @RunWith(Parameterized.class)
 public class PluginIT {

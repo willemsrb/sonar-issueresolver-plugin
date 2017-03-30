@@ -46,20 +46,12 @@ public final class ImportResult {
 		matchedIssues++;
 	}
 
-	public int getMatchedIssues() {
-		return matchedIssues;
-	}
-
 	public void registerMatchFailure(String failure) {
 		matchFailures.add(failure);
 	}
 
 	public void registerTransitionedIssue() {
 		transitionedIssues++;
-	}
-
-	public int getTransitionedIssues() {
-		return transitionedIssues;
 	}
 
 	public void registerTransitionFailure(String failure) {
@@ -70,20 +62,12 @@ public final class ImportResult {
 		assignedIssues++;
 	}
 
-	public int getAssignedIssues() {
-		return assignedIssues;
-	}
-
 	public void registerAssignFailure(String failure) {
 		assignFailures.add(failure);
 	}
 
 	public void registerCommentedIssue() {
 		commentedIssues++;
-	}
-
-	public int getCommentedIssues() {
-		return commentedIssues;
 	}
 
 	public void registerCommentFailure(String failure) {
