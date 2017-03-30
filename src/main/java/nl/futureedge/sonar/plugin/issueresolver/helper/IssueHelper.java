@@ -26,19 +26,18 @@ import nl.futureedge.sonar.plugin.issueresolver.ws.ImportResult;
  * Issue functionality.
  */
 public final class IssueHelper {
-	
+
 	private static final Logger LOGGER = Loggers.get(IssueHelper.class);
-	
+
 	private static final String PATH_TRANSITION = "api/issues/do_transition";
 	private static final String PATH_ASSIGN = "api/issues/assign";
 	private static final String PATH_ADD_COMMENT = "api/issues/add_comment";
-	
+
 	private static final String PARAM_ISSUE = "issue";
 	private static final String PARAM_TRANSITION = "transition";
 	private static final String PARAM_ASSIGNEE = "assignee";
 	private static final String PARAM_TEXT = "text";
-	
-	
+
 	private IssueHelper() {
 	}
 
@@ -82,13 +81,18 @@ public final class IssueHelper {
 	 *            result
 	 * @param preview
 	 *            true if issues should not be actually resolved.
+	 * @param skipAssign
+	 *            if true, no assignments will be done
+	 * @param skipComments
+	 *            if true, no comments will be added
 	 * @param projectKey
 	 *            project key
 	 * @param issues
 	 *            issues
 	 */
 	public static void resolveIssues(final LocalConnector localConnector, final ImportResult importResult,
-			final boolean preview, final String projectKey, final Map<IssueKey, IssueData> issues) {
+			final boolean preview, final boolean skipAssign, final boolean skipComments, final String projectKey,
+			final Map<IssueKey, IssueData> issues) {
 		// Read issues from project, match and resolve
 		importResult.setPreview(preview);
 
@@ -105,12 +109,16 @@ public final class IssueHelper {
 
 			if (data != null) {
 				importResult.registerMatchedIssue();
-				
+
 				// Handle issue, if data is found
 				handleTransition(wsClient.wsConnector(), issue, data.getStatus(), data.getResolution(), preview,
 						importResult);
-				handleAssignee(wsClient.wsConnector(), issue, data.getAssignee(), preview, importResult);
-				handleComments(wsClient.wsConnector(), issue, data.getComments(), preview, importResult);
+				if (!skipAssign) {
+					handleAssignee(wsClient.wsConnector(), issue, data.getAssignee(), preview, importResult);
+				}
+				if (!skipComments) {
+					handleComments(wsClient.wsConnector(), issue, data.getComments(), preview, importResult);
+				}
 			}
 		});
 	}
@@ -159,7 +167,7 @@ public final class IssueHelper {
 	}
 
 	private static void transitionIssue(final WsConnector wsConnector, final String issue, final String transition,
-			final 	ImportResult importResult) {
+			final ImportResult importResult) {
 		final WsRequest request = new PostRequest(PATH_TRANSITION).setParam(PARAM_ISSUE, issue)
 				.setParam(PARAM_TRANSITION, transition);
 		final WsResponse response = wsConnector.call(request);

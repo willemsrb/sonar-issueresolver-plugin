@@ -29,6 +29,20 @@ define(['dom', 'result'], function(dom, result) {
 					dom.createElement(formUpdatePreview, 'input', { id: 'issueresolver-update-preview', type: 'checkbox', name: 'preview', value: 'true'});
 					dom.createElement(formUpdatePreview, 'div', { className: 'modal-field-description', textContent: 'If set, issues are not actually resolved, but only matched and checked, no changes are made' });
 				
+					// Update - form - skipAssign (checkbox, optional)
+					var formUpdateSkipAssign = dom.createElement(formUpdate, 'div', { className: 'modal-field' });				
+					var formUpdateSkipAssignLabel = dom.createElement(formUpdateSkipAssign, 'label', { for: 'issueresolver-update-skipassign' });
+					formUpdateSkipAssignLabel.appendChild(document.createTextNode('Skip assignments'));
+					dom.createElement(formUpdateSkipAssign, 'input', { id: 'issueresolver-update-skipassign', type: 'checkbox', name: 'skipAssign', value: 'true'});
+					dom.createElement(formUpdateSkipAssign, 'div', { className: 'modal-field-description', textContent: 'If set, issue assignments are skipped' });
+
+					// Update - form - skipComments (checkbox, optional)
+					var formUpdateSkipComments = dom.createElement(formUpdate, 'div', { className: 'modal-field' });				
+					var formUpdateSkipCommentsLabel = dom.createElement(formUpdateSkipComments, 'label', { for: 'issueresolver-update-skipcomments' });
+					formUpdateSkipCommentsLabel.appendChild(document.createTextNode('Skip comments'));
+					dom.createElement(formUpdateSkipComments, 'input', { id: 'issueresolver-update-skipcomments', type: 'checkbox', name: 'skipComments', value: 'true'});
+					dom.createElement(formUpdateSkipComments, 'div', { className: 'modal-field-description', textContent: 'If set, issue comments are skipped' });
+				
 					// Update - form - button
 					var formUpdateButton = dom.createElement(formUpdate, 'div', { className: 'modal-field' });
 					var formUpdateButtonButton = dom.createElement(formUpdateButton, 'button', { textContent: 'Update' });
@@ -68,6 +82,7 @@ define(['dom', 'result'], function(dom, result) {
 							dom.createElement(formUpdateProjectKeyInput, 'option', { value: component.key, textContent: component.name });
 						}
 					}).catch(function(error) {
+						// Nothing
 					});
 				}
 			};

@@ -34,19 +34,23 @@ public class IssueResolverWebServiceTest {
 		Action importAction = controller.action("import");
 		Assert.assertNotNull(importAction);
 		Assert.assertTrue(importAction.handler() instanceof ImportAction);
-		Assert.assertEquals(3, importAction.params().size());
+		Assert.assertEquals(5, importAction.params().size());
 		Assert.assertNotNull(importAction.param("projectKey"));
 		Assert.assertNotNull(importAction.param("preview"));
 		Assert.assertNotNull(importAction.param("data"));
+		Assert.assertNotNull(importAction.param("skipAssign"));
+		Assert.assertNotNull(importAction.param("skipComments"));
 
 		// Update
 		Action updateAction = controller.action("update");
 		Assert.assertNotNull(updateAction);
 		Assert.assertTrue(updateAction.handler() instanceof UpdateAction);
-		Assert.assertEquals(3, updateAction.params().size());
+		Assert.assertEquals(5, updateAction.params().size());
 		Assert.assertNotNull(updateAction.param("fromProjectKey"));
 		Assert.assertNotNull(updateAction.param("projectKey"));
 		Assert.assertNotNull(updateAction.param("preview"));
+		Assert.assertNotNull(updateAction.param("skipAssign"));
+		Assert.assertNotNull(updateAction.param("skipComments"));
 	}
 
 }

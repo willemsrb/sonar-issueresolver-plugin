@@ -18,6 +18,8 @@ public class UpdateActionTest {
 		request.setParam("fromProjectKey", "base-project-key");
 		request.setParam("projectKey", "my-project-key");
 		request.setParam("preview", "false");
+		request.setParam("skipAssign", "false");
+		request.setParam("skipComments", "false");
 
 		// Local call (first page)
 		final Map<String, String> localRequestBaseParamsToCheckPageOne = new HashMap<>();

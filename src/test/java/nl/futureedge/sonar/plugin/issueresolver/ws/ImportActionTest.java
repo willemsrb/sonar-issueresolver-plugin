@@ -19,6 +19,8 @@ public class ImportActionTest {
 		final MockRequest request = new MockRequest();
 		request.setParam("projectKey", "my-project-key");
 		request.setParam("preview", "false");
+		request.setParam("skipAssign", "false");
+		request.setParam("skipComments", "false");
 		request.setPart("data",
 				new ByteArrayInputStream(removeInvalidJsonComments(
 						IOUtils.toString(ImportActionTest.class.getResourceAsStream("ImportActionTest-request.json")))

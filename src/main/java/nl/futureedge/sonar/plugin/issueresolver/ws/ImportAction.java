@@ -27,6 +27,8 @@ public final class ImportAction implements IssueResolverWsAction {
 	public static final String PARAM_PROJECT_KEY = "projectKey";
 	public static final String PARAM_PREVIEW = "preview";
 	public static final String PARAM_DATA = "data";
+	public static final String PARAM_SKIP_ASSIGN = "skipAssign";
+	public static final String PARAM_SKIP_COMMENTS = "skipComments";
 
 	private static final Logger LOGGER = Loggers.get(ImportAction.class);
 
@@ -38,6 +40,10 @@ public final class ImportAction implements IssueResolverWsAction {
 				.setPost(true);
 		action.createParam(PARAM_PROJECT_KEY).setDescription("Project to import issues to").setRequired(true);
 		action.createParam(PARAM_PREVIEW).setDescription("If import should be a preview").setDefaultValue("false");
+		action.createParam(PARAM_SKIP_ASSIGN).setDescription("If assignment should be skipped")
+				.setDefaultValue("false");
+		action.createParam(PARAM_SKIP_COMMENTS).setDescription("If comments should be skipped")
+				.setDefaultValue("false");
 		action.createParam(PARAM_DATA).setDescription("Exported resolved issue data").setRequired(true);
 		LOGGER.debug("Import action defined");
 	}
@@ -53,7 +59,10 @@ public final class ImportAction implements IssueResolverWsAction {
 				+ " duplicate keys)");
 
 		IssueHelper.resolveIssues(request.localConnector(), importResult,
-				request.mandatoryParamAsBoolean(PARAM_PREVIEW), request.mandatoryParam(PARAM_PROJECT_KEY), issues);
+				request.mandatoryParamAsBoolean(PARAM_PREVIEW), 
+				request.mandatoryParamAsBoolean(PARAM_SKIP_ASSIGN),
+				request.mandatoryParamAsBoolean(PARAM_SKIP_COMMENTS),
+				request.mandatoryParam(PARAM_PROJECT_KEY), issues);
 
 		// Sent result
 		final JsonWriter responseWriter = response.newJsonWriter();

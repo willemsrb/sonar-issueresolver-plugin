@@ -14,7 +14,7 @@ define(['dom'], function(dom) {
 				links: [],
 				show: function(name){
 					dom.removeChildren(this.tabParent);
-					this.links.forEach(function(item, index) {
+					this.links.forEach(function(item) {
 						if(item.name == name) {
 							item.link.className = 'active';
 							item.tab.show(divMain);
