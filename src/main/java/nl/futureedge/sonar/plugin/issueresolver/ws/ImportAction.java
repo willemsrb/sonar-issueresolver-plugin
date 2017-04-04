@@ -1,7 +1,9 @@
 package nl.futureedge.sonar.plugin.issueresolver.ws;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.sonar.api.server.ws.Request;
@@ -29,7 +31,9 @@ public final class ImportAction implements IssueResolverWsAction {
 	public static final String PARAM_DATA = "data";
 	public static final String PARAM_SKIP_ASSIGN = "skipAssign";
 	public static final String PARAM_SKIP_COMMENTS = "skipComments";
-	private static final String FALSE = "false";
+
+	private static final String BOOLEAN_FALSE = "false";
+	private static final List<String> BOOLEAN_VALUES = Arrays.asList("true", BOOLEAN_FALSE);
 
 	private static final Logger LOGGER = Loggers.get(ImportAction.class);
 
@@ -37,12 +41,18 @@ public final class ImportAction implements IssueResolverWsAction {
 	public void define(final NewController controller) {
 		LOGGER.debug("Defining import action ...");
 		final NewAction action = controller.createAction(ACTION)
-				.setDescription("Import issues that have exported with the export function.").setHandler(this)
+				.setDescription("Import issues that have exported with the export function.")
+				.setResponseExample(getClass().getResource("/response-examples/import.json")).setHandler(this)
 				.setPost(true);
-		action.createParam(PARAM_PROJECT_KEY).setDescription("Project to import issues to").setRequired(true);
-		action.createParam(PARAM_PREVIEW).setDescription("If import should be a preview").setDefaultValue(FALSE);
-		action.createParam(PARAM_SKIP_ASSIGN).setDescription("If assignment should be skipped").setDefaultValue(FALSE);
-		action.createParam(PARAM_SKIP_COMMENTS).setDescription("If comments should be skipped").setDefaultValue(FALSE);
+
+		action.createParam(PARAM_PROJECT_KEY).setDescription("Project to import issues to")
+				.setExampleValue("my-project").setRequired(true);
+		action.createParam(PARAM_PREVIEW).setDescription("If import should be a preview")
+				.setPossibleValues(BOOLEAN_VALUES).setDefaultValue(BOOLEAN_FALSE);
+		action.createParam(PARAM_SKIP_ASSIGN).setDescription("If assignment should be skipped")
+				.setPossibleValues(BOOLEAN_VALUES).setDefaultValue(BOOLEAN_FALSE);
+		action.createParam(PARAM_SKIP_COMMENTS).setDescription("If comments should be skipped")
+				.setPossibleValues(BOOLEAN_VALUES).setDefaultValue(BOOLEAN_FALSE);
 		action.createParam(PARAM_DATA).setDescription("Exported resolved issue data").setRequired(true);
 		LOGGER.debug("Import action defined");
 	}

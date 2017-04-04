@@ -42,3 +42,12 @@ When transitioning, assigning issues or adding comments the current logged in ac
 
 ##### Preview
 Use the preview option to preview the matching results. No actual changes will be made to the  project.
+
+## Webservices
+The main work for the plugin is done via webservices that are available via the SonarQube Web API (see SonarQube -> Helper -> Web API):
+
+- Update issues from another project: http POST to /api/issueresolver/update
+- Export issues from a project: http GET to /api/issueresolver/export
+- Import issues in a project: http POST to /api/issueresolver/import
+
+These webservices can be used by external tools to trigger the functionality.

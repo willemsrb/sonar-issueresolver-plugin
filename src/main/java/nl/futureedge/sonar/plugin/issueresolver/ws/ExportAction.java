@@ -31,10 +31,12 @@ public class ExportAction implements IssueResolverWsAction {
 	public void define(final NewController controller) {
 		LOGGER.debug("Defining export action ...");
 		final NewAction action = controller.createAction(ACTION)
-				.setDescription("Export resolved issues with the status false positive or won't fix.").setHandler(this)
+				.setDescription("Export resolved issues with the status false positive or won't fix.")
+				.setResponseExample(getClass().getResource("/response-examples/export.json")).setHandler(this)
 				.setPost(false);
 
-		action.createParam(PARAM_PROJECT_KEY).setDescription("Project to export issues for").setRequired(true);
+		action.createParam(PARAM_PROJECT_KEY).setDescription("Project to export issues for")
+				.setExampleValue("my-project").setRequired(true);
 		LOGGER.debug("Export action defined");
 	}
 

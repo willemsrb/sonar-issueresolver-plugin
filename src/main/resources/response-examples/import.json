@@ -1,0 +1,13 @@
+{
+    "preview": false,
+    "issues": 10,
+    "duplicateKeys": 1,
+    "matchedIssues": 8,
+    "matchFailures": ["Could not determine transition for issue with key 'issue-key-1'; current status is 'RESOLVED' and resolution is 'WONTFIX'; wanted status is 'RESOLVED' and resolution is 'FALSE-POSITIVE'"],
+    "transitionedIssues": 6,
+    "transitionFailures": ["Could not transition issue with key 'issue-key-2' using transition 'reopen'"],
+    "assignedIssues": 2,
+    "assignFailures": ["Could not assign issue with key 'issue-key-3' to user 'unknown'"],
+    "commentedIssues": 1,
+    "commentFailures": ["Could not add comment to issue with key 'issue-key-4'"]
+}

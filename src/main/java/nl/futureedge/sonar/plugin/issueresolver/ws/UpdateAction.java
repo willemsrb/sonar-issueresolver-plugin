@@ -1,6 +1,8 @@
 package nl.futureedge.sonar.plugin.issueresolver.ws;
 
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.sonar.api.server.ws.Request;
@@ -27,7 +29,9 @@ public final class UpdateAction implements IssueResolverWsAction {
 	public static final String PARAM_PREVIEW = "preview";
 	public static final String PARAM_SKIP_ASSIGN = "skipAssign";
 	public static final String PARAM_SKIP_COMMENTS = "skipComments";
-	private static final String FALSE = "false";
+
+	private static final String BOOLEAN_FALSE = "false";
+	private static final List<String> BOOLEAN_VALUES = Arrays.asList("true", BOOLEAN_FALSE);
 
 	private static final Logger LOGGER = Loggers.get(UpdateAction.class);
 
@@ -35,12 +39,20 @@ public final class UpdateAction implements IssueResolverWsAction {
 	public void define(final NewController controller) {
 		LOGGER.debug("Defining update action ...");
 		final NewAction action = controller.createAction(ACTION)
-				.setDescription("Update issues from in one project based on another.").setHandler(this).setPost(true);
-		action.createParam(PARAM_PROJECT_KEY).setDescription("Project to resolve issues in").setRequired(true);
-		action.createParam(PARAM_FROM_PROJECT_KEY).setDescription("Project to read issues from").setRequired(true);
-		action.createParam(PARAM_PREVIEW).setDescription("If import should be a preview").setDefaultValue(FALSE);
-		action.createParam(PARAM_SKIP_ASSIGN).setDescription("If assignment should be skipped").setDefaultValue(FALSE);
-		action.createParam(PARAM_SKIP_COMMENTS).setDescription("If comments should be skipped").setDefaultValue(FALSE);
+				.setDescription("Update issues from in one project based on another.")
+				.setResponseExample(getClass().getResource("/response-examples/import.json")).setHandler(this)
+				.setPost(true);
+
+		action.createParam(PARAM_PROJECT_KEY).setDescription("Project to resolve issues in")
+				.setExampleValue("my-project").setRequired(true);
+		action.createParam(PARAM_FROM_PROJECT_KEY).setDescription("Project to read issues from")
+				.setExampleValue("my-other-project").setRequired(true);
+		action.createParam(PARAM_PREVIEW).setDescription("If import should be a preview")
+				.setPossibleValues(BOOLEAN_VALUES).setDefaultValue(BOOLEAN_FALSE);
+		action.createParam(PARAM_SKIP_ASSIGN).setDescription("If assignment should be skipped")
+				.setPossibleValues(BOOLEAN_VALUES).setDefaultValue(BOOLEAN_FALSE);
+		action.createParam(PARAM_SKIP_COMMENTS).setDescription("If comments should be skipped")
+				.setPossibleValues(BOOLEAN_VALUES).setDefaultValue(BOOLEAN_FALSE);
 		LOGGER.debug("Update action defined");
 	}
 
