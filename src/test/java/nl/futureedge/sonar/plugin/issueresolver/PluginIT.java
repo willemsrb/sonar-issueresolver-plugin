@@ -66,6 +66,8 @@ public class PluginIT {
 			+ "{\"longName\":\"src/main/java/TestClass.java\",\"rule\":\"squid:S1220\",\"line\":0,\"status\":\"RESOLVED\",\"resolution\":\"WONTFIX\",\"assignee\":\"\",\"comments\":[]},"
 			+ "{\"longName\":\"src/main/java/TestClass.java\",\"rule\":\"squid:S106\",\"line\":6,\"status\":\"RESOLVED\",\"resolution\":\"FALSE-POSITIVE\",\"assignee\":\"\",\"comments\":[]}"
 			+ "]}";
+	private static final String RESULT_IMPORT = "{\"preview\":false,\"issues\":2,\"duplicateKeys\":0,\"matchedIssues\":2,\"matchFailures\":[],\"transitionedIssues\":2,\"transitionFailures\":[],\"assignedIssues\":0,\"assignFailures\":[],\"commentedIssues\":0,\"commentFailures\":[]}";
+	private static final String RESULT_UPDATE = "{\"preview\":false,\"issues\":2,\"duplicateKeys\":0,\"matchedIssues\":2,\"matchFailures\":[],\"transitionedIssues\":2,\"transitionFailures\":[],\"assignedIssues\":0,\"assignFailures\":[],\"commentedIssues\":0,\"commentFailures\":[]}";
 
 	@Parameters
 	public static Collection<Object[]> sonarQubeVersions() {
@@ -128,51 +130,55 @@ public class PluginIT {
 		final String masterProjectKey = "nl.future-edge.sonarqube.plugins:sonar-issueresolver-plugin-it";
 
 		// Export issues (no issues expected)
-		final String resultA = exportIssues(masterProjectKey);
-		LOGGER.info("Result A: {}", resultA);
-		Assert.assertEquals(RESULT_NO_ISSUES, resultA);
+		final String resultExportA = exportIssues(masterProjectKey);
+		LOGGER.info("Result export A: {}", resultExportA);
+		Assert.assertEquals(RESULT_NO_ISSUES, resultExportA);
 
 		// Resolve issues
 		resolveIssues(masterProjectKey);
 
 		// Export issues (two issues expected)
-		final String resultB = exportIssues(masterProjectKey);
-		LOGGER.info("Result B: {}", resultB);
-		Assert.assertEquals(RESULT_ISSUES, resultB);
+		final String resultExportB = exportIssues(masterProjectKey);
+		LOGGER.info("Result export B: {}", resultExportB);
+		Assert.assertEquals(RESULT_ISSUES, resultExportB);
 
 		// BRANCH
 		runSonar("branchOne");
 		final String branchOneProjectKey = "nl.future-edge.sonarqube.plugins:sonar-issueresolver-plugin-it:branchOne";
 
 		// Export issues (no issues expected)
-		final String resultC = exportIssues(branchOneProjectKey);
-		LOGGER.info("Result C: {}", resultC);
-		Assert.assertEquals(RESULT_NO_ISSUES, resultC);
+		final String resultExportC = exportIssues(branchOneProjectKey);
+		LOGGER.info("Result export C: {}", resultExportC);
+		Assert.assertEquals(RESULT_NO_ISSUES, resultExportC);
 
 		// Import issues from master export into branch
-		importResolvedIssues(branchOneProjectKey, resultB);
+		final String resultImport = importResolvedIssues(branchOneProjectKey, resultExportB);
+		LOGGER.info("Result import: {}", resultImport);
+		Assert.assertEquals(RESULT_IMPORT, resultImport);
 
 		// Export issues (two issues expected)
-		final String resultD = exportIssues(branchOneProjectKey);
-		LOGGER.info("Result D: {}", resultD);
-		Assert.assertEquals(RESULT_ISSUES, resultD);
+		final String resultExportD = exportIssues(branchOneProjectKey);
+		LOGGER.info("Result export D: {}", resultExportD);
+		Assert.assertEquals(RESULT_ISSUES, resultExportD);
 
 		// SECOND BRANCH
 		runSonar("branchTwo");
 		final String branchTwoProjectKey = "nl.future-edge.sonarqube.plugins:sonar-issueresolver-plugin-it:branchTwo";
 
 		// Export issues (no issues expected)
-		final String resultE = exportIssues(branchTwoProjectKey);
-		LOGGER.info("Result E: {}", resultE);
-		Assert.assertEquals(RESULT_NO_ISSUES, resultE);
+		final String resultExportE = exportIssues(branchTwoProjectKey);
+		LOGGER.info("Result export E: {}", resultExportE);
+		Assert.assertEquals(RESULT_NO_ISSUES, resultExportE);
 
 		// Import issues from master export into branch
-		updateResolvedIssues(masterProjectKey, branchTwoProjectKey);
-
+		String resultUpdate = updateResolvedIssues(masterProjectKey, branchTwoProjectKey);
+		LOGGER.info("Result update: {}", resultUpdate);
+		Assert.assertEquals(RESULT_UPDATE, resultUpdate);
+		
 		// Export issues (two issues expected)
-		final String resultF = exportIssues(branchTwoProjectKey);
-		LOGGER.info("Result F: {}", resultF);
-		Assert.assertEquals(RESULT_ISSUES, resultF);
+		final String resultExportF = exportIssues(branchTwoProjectKey);
+		LOGGER.info("Result export F: {}", resultExportF);
+		Assert.assertEquals(RESULT_ISSUES, resultExportF);
 	}
 
 	private String exportIssues(final String projectKey) {
