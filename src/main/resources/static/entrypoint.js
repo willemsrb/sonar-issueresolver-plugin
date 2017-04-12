@@ -3,12 +3,12 @@ window.registerExtension('issueresolver/entrypoint', function (options) {
 	options.el.className='page page-limited';
 	
 	var location = options.router.createLocation('/static/issueresolver');
-
 	var loader = function() {
 		requirejs.config({
 		    baseUrl: location.basename + location.pathname
 		});
-		requirejs(['main'], function(main) {
+		requirejs(['config', 'main'], function(config, main) {
+			config.basename = location.basename;
 			main.main(options);
 	    });
 	};

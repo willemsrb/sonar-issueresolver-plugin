@@ -1,4 +1,4 @@
-define(['dom'], function(dom) {
+define(['config', 'dom'], function(config, dom) {
 	return {
 		create: function(projectKey) {
 			return {
@@ -9,14 +9,14 @@ define(['dom'], function(dom) {
 					
 					// Export - form
 					var formExport = dom.createElement( parent, 'form', { id: 'issueresolver-export-form' });
-					
+
 					// Export - form - button
 					var formExportButton = dom.createElement(formExport, 'div', { className: 'modal-field'});
 					dom.createElement(formExportButton, 'button', { textContent: 'Export'});
-				
+
 					// Export - form - onsubmit
 					formExport.onsubmit = function() {
-						window.location = '/api/issueresolver/export?projectKey=' + encodeURI(projectKey);
+						window.location = config.basename + 'api/issueresolver/export?projectKey=' + encodeURI(projectKey);
 						return false;
 					};
 				}
