@@ -20,7 +20,8 @@ Comments are matched by comparing the markdown. If a comment is not present on t
 When transitioning, assigning issues or adding comments the current logged in account will be used.
 
 ## Usage
-- Install the plugin
+- Install the plugin via the Update Center in the SonarQube administration pages. Or to install the plugin manually; copy the .jar file from the release to the `extensions/plugins` directory of your SonarQube installation.
+
 - Find the page 'Issue resolver' under the project Administration section.
 
 ##### Update
